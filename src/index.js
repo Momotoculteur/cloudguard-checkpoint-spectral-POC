@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const DD_API_KEY = "fofek567U8IO";
 root.render(
   <React.StrictMode>
     <App />

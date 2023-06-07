@@ -23,20 +23,22 @@ jobs:
             path: './node_modules'
             key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
-    
+
     osv-scanner:
         name: "OSV-SCANNER"
         runs-on: ubuntu-22.04
         steps:
-            - name: 'checkout'
-              uses: actions/checkout@v3
-            - uses: actions/setup-go@v4
-              with:
-                go-version: '1.19'
-            - name: 'install scanner'
-              run: "go install github.com/google/osv-scanner/cmd/osv-scanner@v1"
-            - name: "scan"
-              run: "osv-scanner --lockfile=package-lock.json"
+          - name: 'checkout'
+            uses: actions/checkout@v3
+          - uses: actions/setup-go@v4
+            with:
+              go-version: '1.19'
+          - name: 'install scanner'
+            run: "go install github.com/google/osv-scanner/cmd/osv-scanner@v1"
+          - name: "scan"
+            run: "osv-scanner --lockfile=package-lock.json"
               
+
+
               
             
