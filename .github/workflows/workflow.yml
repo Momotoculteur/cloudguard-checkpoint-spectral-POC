@@ -27,6 +27,7 @@ jobs:
     osv-scanner:
         name: "OSV-SCANNER"
         runs-on: ubuntu-22.04
+        needs: [dependencies]
         steps:
             - name: 'checkout'
               uses: actions/checkout@v3
