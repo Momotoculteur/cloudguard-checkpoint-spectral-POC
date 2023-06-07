@@ -3,6 +3,10 @@ run-name: POC
 on: 
     - push
     - workflow_dispatch
+
+env:
+  SPECTRAL_DSN: ${{ secrets.SPECTRAL_DSN }}
+
 jobs: 
     dependencies:
       name: 'Install NPM deps'
@@ -24,21 +28,17 @@ jobs:
             key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
 
-    osv-scanner:
-        name: "OSV-SCANNER"
-        runs-on: ubuntu-22.04
-        steps:
-          - name: 'checkout'
-            uses: actions/checkout@v3
-          - uses: actions/setup-go@v4
-            with:
-              go-version: '1.19'
-          - name: 'install scanner'
-            run: "go install github.com/google/osv-scanner/cmd/osv-scanner@v1"
-          - name: "scan"
-            run: "osv-scanner --lockfile=package-lock.json"
-              
+    scan:
+      runs-on: ubuntu-22.04
+      steps:
+      - uses: actions/checkout@v3
+      - name: Install and run Spectral CI
+        uses: spectralops/spectral-github-action@v2
+        with:
+          spectral-dsn: ${{ env.SPECTRAL_DSN }}
+          spectral-args: scan --ok --engines secrets,iac,oss --include-tags base,iac
+      
 
 
-              
+      
             
